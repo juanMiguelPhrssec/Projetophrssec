@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Empresas\empresaController;
+use App\Http\Controllers\Formularios\FormularioController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\UsuariosController;
+use App\Models\Pessoas;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,13 +33,19 @@ Route::middleware('auth')->group(function () {
 
 
     //criação da rota de emrpesa
-    Route::resource("empresas",empresaController::class)->only(['index','indexJson','create','store'])->missing(function(){
+    Route::resource("empresas",empresaController::class)->only(['index','edit','create','store','update'])->missing(function(){
         return redirect()->route("empresas.index");
     });
     
     Route::get('/empresas/buscaporid/{id}', [empresaController::class, 'Buscarporid']);
     Route::get('/empresasJson', [empresaController::class, 'empresaJson'])->name("empresas.json");
+
+    Route::resource('pessoas',  UsuariosController::class)->only('index','destroy','store');
+    Route::get('/pessoasJson', [UsuariosController::class, 'indexJson']);
     
+    Route::resource('formulario', FormularioController::class)->only('index','create','store')->missing(function(){
+        return redirect()->route("formulario.index");
+    });
 });
 
 require __DIR__.'/auth.php';

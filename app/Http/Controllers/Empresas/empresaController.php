@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Empresas;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Empresa\StoreRequestEmpresa;
+use App\Http\Requests\Empresa\UpdateEmpresaRequest;
 use App\Models\Empresa;
 use App\Models\User;
 use App\Rules\CnpjValido;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +21,17 @@ class empresaController extends Controller
         return view('empresas.index',compact('user','breadcrumb'));
     }
 
+
+    public function edit(Empresa $empresa){
+        $newEmpresa= $empresa->newEmpresa;
+        
+        $breadcrumb =[
+            ['url'=>route('empresas.index'),'text'=>'Empresas'],
+            ['url'=> route('empresas.create'),'text'=>'empresas']
+        ];
+            return view('empresas.EditEmpresa',compact('newEmpresa','breadcrumb','empresa'));
+
+    }
     public function create(Empresa $empresa){
         $newEmpresa= $empresa->newEmpresa;
         
@@ -40,12 +53,12 @@ class empresaController extends Controller
         $empresasList = [];
     
         foreach ($empresas as $empresa) {
-            $routeEdit = route('empresas.index', $empresa->id);
+            $routeEdit = route('empresas.edit', $empresa->id);
             $btnEdit = "<a href='$routeEdit' id='$empresa->id' class='btn btn-xs btn-default text-primary mx-1 shadow' title='Editar'><i class='fa fa-lg fa-fw fa-pen'></i></a>";
     
             $btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow excluir-dado btn-delete" title="Excluir" data-dado-id="' . $empresa->id . '"><i class="fa fa-lg fa-fw fa-trash"></i></button>';
     
-            $btnDetails = '<a href="' . route('empresas.index', $empresa->id) . '" class="btn btn-xs btn-default text-teal mx-1 shadow show-dado" data-dado-id="' . $empresa->id . '" title="Detalhes"><i class="fa fa-lg fa-fw fa-eye"></i></a>';
+            $btnDetails = '<a href="' . route('pessoas.index', $empresa->id) . '" class="btn btn-xs btn-default text-teal mx-1 shadow show-dado" data-dado-id="' . $empresa->id . '" title="Pessoas"><i class="fas fa-fw fa-user" aria-hidden="true"></i></a>';
     
             $empresasList[] = [
                 "id" => $empresa->id,
@@ -82,6 +95,28 @@ class empresaController extends Controller
 
 
     }
+    public function update(UpdateEmpresaRequest $request, Empresa $empresa){
+
+        try {
+            $validatedData = $request->validated(); // Valida os dados recebidos no request
+    
+            $empresa->update($validatedData); // Atualiza os dados da empresa com os dados validados
+    
+            if ($request->json == 1) {
+                return response()->json([
+                    "type" => 'success',
+                    "message" => "$empresa->nome_da_empresa atualizada com sucesso"
+                ]);
+            } else {
+                return redirect()->route('empresas.index');
+            }
+    
+        } catch (Exception $e) {
+            return response()->json(["type" => "error", "message" => $e->getMessage()]);
+        }
+    
+    }
+    
 
     
     public function Buscarporid(string $id){

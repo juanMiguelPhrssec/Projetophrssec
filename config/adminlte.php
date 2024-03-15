@@ -329,6 +329,11 @@ return [
             'url'  => '/empresas',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        [
+            'text' => 'perguntas',
+            'url'  => '/formulario',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
 
     ],
 
@@ -434,6 +439,21 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'Toastr' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/toastr/toastr.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/toastr/toastr.min.js',
                 ],
             ],
         ],

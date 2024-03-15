@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'pessoas'=>[
+            'driver'=> 'session',
+            'provider'=>'pessoas'
+        ]
     ],
 
     /*
@@ -63,6 +67,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'pessoas'=>[
+            'driver'=>'eloquent',
+            'model'=>App\Models\Pessoas::class,
+            
         ],
 
         // 'users' => [
@@ -96,6 +105,11 @@ return [
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
+        ],
+        'pessoas'=>[
+            'provider'=>'pessoas',
+            'table'=>'password_reset_tokens',
+            'expire'=> 60,
         ],
     ],
 

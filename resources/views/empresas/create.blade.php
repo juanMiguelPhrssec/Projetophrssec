@@ -14,7 +14,7 @@
   <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <x-adminlte-card title="Registrar nova pessoa" theme="light" theme-mode="full" class="elevation-3 text-black"
+            <x-adminlte-card title="Registrar nova empresa" theme="light" theme-mode="full" class="elevation-3 text-black"
                     body-class="bg-light" header-class="bg-light" footer-class="bg-light border-top rounded border-light"
                     icon="" collapsible>
                     <form action="{{ route('empresas.store') }}" method="POST" id="form">
